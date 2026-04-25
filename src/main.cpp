@@ -411,10 +411,10 @@ int main(){
             vector<Book> books = loadAllBooks();
             function<bool(const Book&)> pred = [](const Book&){ return true; };
             bool ok=true;
-            if(tokens.size()==2){ string t=tokens[1]; if(t.rfind("-ISBN=",0)==0){ string v=t.substr(6); if(!validAscii(v,20)){ ok=false; } else pred=[&](const Book &b){ return b.ISBN==v; }; }
-                else if(t.rfind("-name=",0)==0){ string v=t.substr(6); if(!(v.size()>=2 && v.front()=='"' && v.back()=='"')) ok=false; else { v=v.substr(1,v.size()-2); if(!validAsciiNoDQ(v,60)) ok=false; else pred=[&](const Book &b){ return b.name==v; }; } }
-                else if(t.rfind("-author=",0)==0){ string v=t.substr(8); if(!(v.size()>=2 && v.front()=='"' && v.back()=='"')) ok=false; else { v=v.substr(1,v.size()-2); if(!validAsciiNoDQ(v,60)) ok=false; else pred=[&](const Book &b){ return b.author==v; }; } }
-                else if(t.rfind("-keyword=",0)==0){ string v=t.substr(9); if(!(v.size()>=2 && v.front()=='"' && v.back()=='"')) ok=false; else { v=v.substr(1,v.size()-2); if(!validAsciiNoDQ(v,60)) ok=false; else {
+            if(tokens.size()==2){ string t=tokens[1]; if(t.rfind("-ISBN=",0)==0){ string v=t.substr(6); if(!validAscii(v,20) || v.empty()){ ok=false; } else pred=[&](const Book &b){ return b.ISBN==v; }; }
+                else if(t.rfind("-name=",0)==0){ string v=t.substr(6); if(!(v.size()>=2 && v.front()=='"' && v.back()=='"')) ok=false; else { v=v.substr(1,v.size()-2); if(!validAsciiNoDQ(v,60) || v.empty()) ok=false; else pred=[&](const Book &b){ return b.name==v; }; } }
+                else if(t.rfind("-author=",0)==0){ string v=t.substr(8); if(!(v.size()>=2 && v.front()=='"' && v.back()=='"')) ok=false; else { v=v.substr(1,v.size()-2); if(!validAsciiNoDQ(v,60) || v.empty()) ok=false; else pred=[&](const Book &b){ return b.author==v; }; } }
+                else if(t.rfind("-keyword=",0)==0){ string v=t.substr(9); if(!(v.size()>=2 && v.front()=='"' && v.back()=='"')) ok=false; else { v=v.substr(1,v.size()-2); if(!validAsciiNoDQ(v,60) || v.empty()) ok=false; else {
                             // v must be single keyword (no '|')
                             if(v.find('|')!=string::npos){ ok=false; }
                             else pred=[&](const Book &b){

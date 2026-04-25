@@ -1,0 +1,8 @@
+su root sjtu
+useradd worker worker_password 3 King-Bailey
+logout
+su worker worker_password
+select 9787559609303
+modify -ISBN=9787559609304
+modify -name="DavisandSons"
+modify -name="Thompson-Patrick"
